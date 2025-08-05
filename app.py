@@ -141,8 +141,7 @@ class StreamlitDataHandler:
     
     @st.cache_data
     def load_sample_data(_self):
-        """Demo amaçlı örnek veri oluştur"""
-        # Gerçek verileriniz yoksa bu örnek veriyi kullanabilirsiniz
+        """Demo amaçlı örnek veri oluştur - DÜZELTME"""
         np.random.seed(42)
         
         brands = ['asus', 'hp', 'lenovo', 'dell', 'apple', 'msi', 'acer']
@@ -174,6 +173,7 @@ class StreamlitDataHandler:
             price = max(10000, int(base_price))
             screen_size = np.random.choice([13.3, 14.0, 15.6, 17.3], p=[0.2, 0.3, 0.4, 0.1])
             
+            # ÖNEMLİ: Tüm gerekli sütunları ekleyin
             data.append({
                 'url': f'https://example.com/laptop-{i}',
                 'name': f'{brand.title()} Laptop Model {i}',
@@ -185,6 +185,7 @@ class StreamlitDataHandler:
                 'os': 'WINDOWS 11' if brand != 'apple' else 'MACOS',
                 'gpu_clean': gpu,
                 'cpu_clean': cpu,
+                # Bu satırlar eksikti - EKLENDİ:
                 'gpu_score': _self.config.GPU_SCORES.get(gpu, 30),
                 'cpu_score': _self.config.CPU_SCORES.get(cpu, 50),
                 'brand_score': _self.config.BRAND_SCORES.get(brand, 0.70),

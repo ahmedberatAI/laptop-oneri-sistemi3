@@ -537,32 +537,36 @@ def main():
         st.header("🔥 Günün Fırsat Ürünleri")
         st.write("Piyasa analizi sonucu tespit edilen avantajlı fiyatlı laptoplar")
         
-        with st.spinner('Fırsat ürünleri analiz ediliyor...'):
-            deals = trend_analyzer.find_deals(df)
-        
-        if not deals.empty:
-            st.success(f"🎯 {len(deals)} fırsat ürün tespit edildi!")
+        # SADECE BUTONA TIKLANINCA ÇALIŞ
+        if st.button("🔍 Fırsat Ürünlerini Analiz Et", type="primary"):
+            with st.spinner('Fırsat ürünleri analiz ediliyor...'):
+                deals = trend_analyzer.find_deals(df)
             
-            for i, (_, deal) in enumerate(deals.head(5).iterrows(), 1):
-                st.markdown(f"""
-                <div class="deal-card">
-                    <h4>🔥 {i}. {deal['name']}</h4>
-                    <p><strong>Fiyat:</strong> {deal['price']:,.0f} TL | <strong>Fırsat Skoru:</strong> {deal['deal_score']:.1f}</p>
-                </div>
-                """, unsafe_allow_html=True)
+            if not deals.empty:
+                st.success(f"🎯 {len(deals)} fırsat ürün tespit edildi!")
                 
-                col_x, col_y = st.columns(2)
-                with col_x:
-                    st.write(f"**Performans Skoru:** {deal['performance_score']:.1f}")
-                    st.write(f"**RAM/SSD:** {int(deal['ram_gb'])}GB / {int(deal['ssd_gb'])}GB")
-                with col_y:
-                    st.write(f"**GPU:** {deal['gpu_clean'].upper()}")
-                    st.write(f"**Marka:** {deal['brand'].title()}")
-                
-                st.markdown(f"[🛒 Ürüne Git]({deal['url']})")
-                st.divider()
+                for i, (_, deal) in enumerate(deals.head(5).iterrows(), 1):
+                    st.markdown(f"""
+                    <div class="deal-card">
+                        <h4>🔥 {i}. {deal['name']}</h4>
+                        <p><strong>Fiyat:</strong> {deal['price']:,.0f} TL | <strong>Fırsat Skoru:</strong> {deal['deal_score']:.1f}</p>
+                    </div>
+                    """, unsafe_allow_html=True)
+                    
+                    col_x, col_y = st.columns(2)
+                    with col_x:
+                        st.write(f"**Performans Skoru:** {deal['performance_score']:.1f}")
+                        st.write(f"**RAM/SSD:** {int(deal['ram_gb'])}GB / {int(deal['ssd_gb'])}GB")
+                    with col_y:
+                        st.write(f"**GPU:** {deal['gpu_clean'].upper()}")
+                        st.write(f"**Marka:** {deal['brand'].title()}")
+                    
+                    st.markdown(f"[🛒 Ürüne Git]({deal['url']})")
+                    st.divider()
+            else:
+                st.info("📊 Şu anda belirgin fırsat ürün tespit edilemedi.")
         else:
-            st.info("📊 Şu anda belirgin fırsat ürün tespit edilemedi.")
+            st.info("👆 Fırsat ürünleri analizi için butona tıklayın")
     
     with tab3:
         # Pazar analizi sekmesi
